@@ -1,8 +1,8 @@
 #define PIN_A 2
 #define PIN_B 3
 #define PIN_C 4
-#define PIN_D 6
-#define PIN_E 5
+#define PIN_D 5
+#define PIN_E 6
 #define PIN_F 7
 #define PIN_G 8
 #define PIN_ENABLE  9
@@ -34,6 +34,9 @@ void setup() {
   pinMode(7, OUTPUT);
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
+
+  digitalWrite(PIN_ENABLE, LOW);
+  digitalWrite(PIN_D, HIGH);
 
 }
 
