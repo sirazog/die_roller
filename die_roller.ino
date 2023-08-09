@@ -5,7 +5,10 @@
 #define PIN_E 6
 #define PIN_F 7
 #define PIN_G 8
-#define PIN_ENABLE  9
+#define PIN_SELECT  9
+
+#define SELECT_ONES_DIGIT HIGH
+#define SELECT_TENS_DIGIT LOW
 
 #define SEG_A   0x01
 #define SEG_B   0x02
@@ -52,10 +55,18 @@ void setup() {
   pinMode(PIN_E, OUTPUT);
   pinMode(PIN_F, OUTPUT);
   pinMode(PIN_G, OUTPUT);
-  pinMode(PIN_ENABLE, OUTPUT);
+  pinMode(PIN_SELECT, OUTPUT);
 
-  digitalWrite(PIN_ENABLE, HIGH);
-  digitalWrite(PIN_D, LOW);
+  digitalWrite(PIN_A, HIGH);
+  digitalWrite(PIN_B, HIGH);
+  digitalWrite(PIN_C, HIGH);
+  digitalWrite(PIN_D, HIGH);
+  digitalWrite(PIN_E, HIGH);
+  digitalWrite(PIN_F, HIGH);
+  digitalWrite(PIN_G, HIGH);
+  digitalWrite(PIN_SELECT, HIGH);
+
+  digitalWrite(PIN_B, LOW);
 
 }
 
@@ -79,12 +90,12 @@ void lightLEDs(int digit, int number) {
     case ONES_DIGIT:
       on = LOW;
       off = HIGH;
-      digitalWrite(PIN_ENABLE, HIGH);
+      digitalWrite(PIN_SELECT, SELECT_ONES_DIGIT);
       break;
     case TENS_DIGIT:
       on = HIGH;
       off = LOW;
-      digitalWrite(PIN_ENABLE, LOW);
+      digitalWrite(PIN_SELECT, SELECT_TENS_DIGIT);
       break;
     
     return;
