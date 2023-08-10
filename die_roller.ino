@@ -28,16 +28,16 @@
 //      |     |
 //       --D--
 
-int segments[] = { /* 0 */ SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
-                   /* 1 */         SEG_B | SEG_C,
-                   /* 2 */ SEG_A | SEG_B         | SEG_D | SEG_E         | SEG_G,
-                   /* 3 */ SEG_A | SEG_B | SEG_C | SEG_D                 | SEG_G,
-                   /* 4 */         SEG_B | SEG_C                 | SEG_F | SEG_G,
-                   /* 5 */ SEG_A         | SEG_C | SEG_D         | SEG_F | SEG_G,
-                   /* 6 */                 SEG_C | SEG_D | SEG_E         | SEG_G,
-                   /* 7 */ SEG_A | SEG_B | SEG_C,
-                   /* 8 */ SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G,
-                   /* 9 */ SEG_A | SEG_B | SEG_C                 | SEG_F | SEG_G
+int segments[] = { /* 0 */  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
+                   /* 1 */          SEG_B | SEG_C,
+                   /* 2 */  SEG_A | SEG_B         | SEG_D | SEG_E         | SEG_G,
+                   /* 3 */  SEG_A | SEG_B | SEG_C | SEG_D                 | SEG_G,
+                   /* 4 */         SEG_B | SEG_C                  | SEG_F | SEG_G,
+                   /* 5 */  SEG_A         | SEG_C | SEG_D         | SEG_F | SEG_G,
+                   /* 6 */                  SEG_C | SEG_D | SEG_E | SEG_F | SEG_G,
+                   /* 7 */  SEG_A | SEG_B | SEG_C,
+                   /* 8 */  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F | SEG_G,
+                   /* 9 */  SEG_A | SEG_B | SEG_C                 | SEG_F | SEG_G
                 };
 
 #define TENS_DIGIT  10
@@ -66,14 +66,14 @@ void setup() {
   digitalWrite(PIN_G, HIGH);
   digitalWrite(PIN_SELECT, HIGH);
 
-  digitalWrite(PIN_B, LOW);
+  lightLEDs(TENS_DIGIT, 9);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   int randNumber = random(1,20);
-  Serial.println(randNumber);
+  //Serial.println(randNumber);
   
   delay(100);
 }
@@ -83,7 +83,7 @@ void displayNumber(int number) {
 }
 
 void lightLEDs(int digit, int number) { 
-  int currentSegments = segments[digit];
+  int currentSegments = segments[number];
   uint8_t on, off;
   
   switch (digit) {
@@ -102,10 +102,17 @@ void lightLEDs(int digit, int number) {
   }
 
   digitalWrite(PIN_A, (currentSegments & SEG_A) ? on : off);
+  Serial.println(currentSegments & SEG_A);
   digitalWrite(PIN_B, (currentSegments & SEG_B) ? on : off);
+  Serial.println(currentSegments & SEG_B);
   digitalWrite(PIN_C, (currentSegments & SEG_C) ? on : off);
+  Serial.println(currentSegments & SEG_C);
   digitalWrite(PIN_D, (currentSegments & SEG_D) ? on : off);
+  Serial.println(currentSegments & SEG_D);
   digitalWrite(PIN_E, (currentSegments & SEG_E) ? on : off);
+  Serial.println(currentSegments & SEG_E);
   digitalWrite(PIN_F, (currentSegments & SEG_F) ? on : off);
+  Serial.println(currentSegments & SEG_F);
   digitalWrite(PIN_G, (currentSegments & SEG_G) ? on : off);
+  Serial.println(currentSegments & SEG_G);
 }
