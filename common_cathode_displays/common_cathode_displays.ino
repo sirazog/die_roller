@@ -8,8 +8,8 @@
 #define PIN_SELECT_ONES  9
 #define PIN_SELECT_TENS  10
 
-#define SELECT_ONES_DIGIT HIGH
-#define SELECT_TENS_DIGIT LOW
+#define DIGIT_SELECT  LOW
+#define DIGIT_DESELECT  HIGH
 
 #define SEG_A   0x01
 #define SEG_B   0x02
@@ -56,7 +56,8 @@ void setup() {
   pinMode(PIN_E, OUTPUT);
   pinMode(PIN_F, OUTPUT);
   pinMode(PIN_G, OUTPUT);
-  pinMode(PIN_SELECT, OUTPUT);
+  pinMode(PIN_SELECT_ONES, OUTPUT);
+  pinMode(PIN_SELECT_TENS, OUTPUT);
 
   digitalWrite(PIN_A, HIGH);
   digitalWrite(PIN_B, HIGH);
@@ -65,9 +66,10 @@ void setup() {
   digitalWrite(PIN_E, HIGH);
   digitalWrite(PIN_F, HIGH);
   digitalWrite(PIN_G, HIGH);
-  digitalWrite(PIN_SELECT, HIGH);
+  digitalWrite(PIN_SELECT_ONES, HIGH);
+  digitalWrite(PIN_SELECT_TENS, HIGH);
 
-  lightLEDs(TENS_DIGIT, 9);
+  lightLEDs(ONES_DIGIT, 3);
 
 }
 
@@ -85,18 +87,17 @@ void displayNumber(int number) {
 
 void lightLEDs(int digit, int number) { 
   int currentSegments = segments[number];
-  uint8_t on, off;
+  uint8_t on = HIGH; 
+  uint8_t off = LOW;
   
   switch (digit) {
     case ONES_DIGIT:
-      on = LOW;
-      off = HIGH;
-      digitalWrite(PIN_SELECT, SELECT_ONES_DIGIT);
+      digitalWrite(PIN_SELECT_ONES, DIGIT_SELECT);
+      digitalWrite(PIN_SELECT_TENS, DIGIT_DESELECT);
       break;
     case TENS_DIGIT:
-      on = HIGH;
-      off = LOW;
-      digitalWrite(PIN_SELECT, SELECT_TENS_DIGIT);
+      digitalWrite(PIN_SELECT_TENS, DIGIT_SELECT);
+      digitalWrite(PIN_SELECT_ONES, DIGIT_DESELECT);
       break;
     
     return;
