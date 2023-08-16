@@ -69,19 +69,32 @@ void setup() {
   digitalWrite(PIN_SELECT_ONES, HIGH);
   digitalWrite(PIN_SELECT_TENS, HIGH);
 
-  lightLEDs(ONES_DIGIT, 3);
-
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int randNumber = random(1,20);
+  int randNumber = random(1,99);
   //Serial.println(randNumber);
-  
-  delay(100);
+  displayNumber(randNumber);
+  delay(500);
 }
 
 void displayNumber(int number) {
+  int digits = countDigits(number);
+
+  if (digits > 2) {
+    while (digits > 2) {
+      number /= 10;
+      digits--;
+    }
+  } 
+
+  int startTime = millis();
+
+  while (! (millis() > startTime + 500)) {
+    lightLEDs(TENS_DIGIT, number / 10);
+    lightLEDs(ONES_DIGIT, number % 10);
+  }
 
 }
 
@@ -104,17 +117,20 @@ void lightLEDs(int digit, int number) {
   }
 
   digitalWrite(PIN_A, (currentSegments & SEG_A) ? on : off);
-  Serial.println(currentSegments & SEG_A);
   digitalWrite(PIN_B, (currentSegments & SEG_B) ? on : off);
-  Serial.println(currentSegments & SEG_B);
   digitalWrite(PIN_C, (currentSegments & SEG_C) ? on : off);
-  Serial.println(currentSegments & SEG_C);
   digitalWrite(PIN_D, (currentSegments & SEG_D) ? on : off);
-  Serial.println(currentSegments & SEG_D);
   digitalWrite(PIN_E, (currentSegments & SEG_E) ? on : off);
-  Serial.println(currentSegments & SEG_E);
   digitalWrite(PIN_F, (currentSegments & SEG_F) ? on : off);
-  Serial.println(currentSegments & SEG_F);
   digitalWrite(PIN_G, (currentSegments & SEG_G) ? on : off);
-  Serial.println(currentSegments & SEG_G);
+}
+
+int countDigits(int number) {
+  int digits = 0;
+  while (number != 0) {
+    number /= 10;
+    digits++;
+  }
+
+  return digits;
 }
