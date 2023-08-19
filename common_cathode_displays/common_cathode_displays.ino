@@ -73,13 +73,8 @@ void loop() {
 }
 
 void displayNumber(int number) {
-  int digits = countDigits(number);
-
-  if (digits > 2) {
-    while (digits > 2) {
-      number /= 10;
-      digits--;
-    }
+  if (number > 99) {
+    number %= 100;
   } 
 
   int startTime = millis();
@@ -120,16 +115,6 @@ void lightLEDs(int digit, int number) {
   digitalWrite(PIN_E, (currentSegments & SEG_E) ? on : off);
   digitalWrite(PIN_F, (currentSegments & SEG_F) ? on : off);
   digitalWrite(PIN_G, (currentSegments & SEG_G) ? on : off);
-}
-
-int countDigits(int number) {
-  int digits = 0;
-  while (number != 0) {
-    number /= 10;
-    digits++;
-  }
-
-  return digits;
 }
 
 void displayOff() {
