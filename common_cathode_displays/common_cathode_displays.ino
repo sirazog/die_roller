@@ -43,6 +43,10 @@ int segments[] = { /* 0 */  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
 
 #define TENS_DIGIT  10
 #define ONES_DIGIT  1
+#define MUX_DELAY   10 //milliseconds
+
+int startTime = 0;
+int randomCounter = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -65,11 +69,17 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int randNumber = random(1,99);
-  //Serial.println(randNumber);
+  int randNumber;
+
+  if (randomCounter == 0) {
+    int randNumber = random(1,99);
+    Serial.println(randNumber);
+    randomCounter = 250;
+  } else {
+    randomCounter--;
+  }
+  
   displayNumber(randNumber);
-  //displayNumber(50);
-  delay(500);
 }
 
 void displayNumber(int number) {
@@ -77,16 +87,15 @@ void displayNumber(int number) {
     number %= 100;
   } 
 
-  int startTime = millis();
+  while(millis() < startTime + MUX_DELAY) {} //Wait if we haven't displayed the last digit long enough
 
-  while (! (millis() > startTime + 500)) {
-    lightLEDs(TENS_DIGIT, number / 10);
-    delay(10);
-    //Serial.println(number / 10);
-    lightLEDs(ONES_DIGIT, number % 10);
-    delay(10);
-    //Serial.println(number % 10);
-  }
+  lightLEDs(TENS_DIGIT, number / 10);
+  Serial.println(number / 10);
+  delay(MUX_DELAY);
+
+  lightLEDs(ONES_DIGIT, number % 10);
+  Serial.println(number % 10);
+  startTime = millis();
 
 }
 
