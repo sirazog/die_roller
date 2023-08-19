@@ -59,15 +59,7 @@ void setup() {
   pinMode(PIN_SELECT_ONES, OUTPUT);
   pinMode(PIN_SELECT_TENS, OUTPUT);
 
-  digitalWrite(PIN_A, HIGH);
-  digitalWrite(PIN_B, HIGH);
-  digitalWrite(PIN_C, HIGH);
-  digitalWrite(PIN_D, HIGH);
-  digitalWrite(PIN_E, HIGH);
-  digitalWrite(PIN_F, HIGH);
-  digitalWrite(PIN_G, HIGH);
-  digitalWrite(PIN_SELECT_ONES, HIGH);
-  digitalWrite(PIN_SELECT_TENS, HIGH);
+  displayOff();
 
 }
 
@@ -76,6 +68,7 @@ void loop() {
   int randNumber = random(1,99);
   //Serial.println(randNumber);
   displayNumber(randNumber);
+  //displayNumber(50);
   delay(500);
 }
 
@@ -93,7 +86,11 @@ void displayNumber(int number) {
 
   while (! (millis() > startTime + 500)) {
     lightLEDs(TENS_DIGIT, number / 10);
+    delay(10);
+    //Serial.println(number / 10);
     lightLEDs(ONES_DIGIT, number % 10);
+    delay(10);
+    //Serial.println(number % 10);
   }
 
 }
@@ -133,4 +130,16 @@ int countDigits(int number) {
   }
 
   return digits;
+}
+
+void displayOff() {
+  digitalWrite(PIN_A, LOW);
+  digitalWrite(PIN_B, LOW);
+  digitalWrite(PIN_C, LOW);
+  digitalWrite(PIN_D, LOW);
+  digitalWrite(PIN_E, LOW);
+  digitalWrite(PIN_F, LOW);
+  digitalWrite(PIN_G, LOW);
+  digitalWrite(PIN_SELECT_ONES, LOW);
+  digitalWrite(PIN_SELECT_TENS, LOW);
 }
