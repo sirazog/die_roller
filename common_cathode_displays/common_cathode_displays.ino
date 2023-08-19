@@ -1,3 +1,4 @@
+//display pins
 #define PIN_A 2
 #define PIN_B 3
 #define PIN_C 4
@@ -7,6 +8,13 @@
 #define PIN_G 8
 #define PIN_SELECT_ONES  9
 #define PIN_SELECT_TENS  10
+
+//bcd pins
+#define ONES_COMMON 22
+#define ONES_ONE    24
+#define ONES_TWO    26
+#define ONES_FOUR   28
+#define ONES_EIGHT  30
 
 #define DIGIT_SELECT  LOW
 #define DIGIT_DESELECT  HIGH
@@ -64,13 +72,22 @@ void setup() {
   pinMode(PIN_SELECT_ONES, OUTPUT);
   pinMode(PIN_SELECT_TENS, OUTPUT);
 
+  pinMode(ONES_COMMON, OUTPUT);
+  pinMode(ONES_ONE, INPUT);
+  pinMode(ONES_TWO, INPUT);
+  pinMode(ONES_FOUR, INPUT);
+  pinMode(ONES_EIGHT, INPUT);
+
+  digitalWrite(ONES_COMMON, LOW);
+
   displayOff();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.print("randomCounter: ");
-  Serial.println(randomCounter);
+  //Serial.print("randomCounter: ");
+  //Serial.println(randomCounter);
+  Serial.println(readBCD());
 
   if (randomCounter <= 0) {
     randomNumber = random(1,99);
@@ -100,7 +117,7 @@ void displayNumber(int number) {
   //Serial.print(number % 10);
   startTime = millis();
 
-  Serial.println("End of displayNumber");
+  //Serial.println("End of displayNumber");
 
 }
 
@@ -140,4 +157,24 @@ void displayOff() {
   digitalWrite(PIN_G, LOW);
   digitalWrite(PIN_SELECT_ONES, LOW);
   digitalWrite(PIN_SELECT_TENS, LOW);
+}
+
+int readBCD() {
+  int value = 0;
+  
+  // (value & digitalRead(ONES_ONE)) ? value++ : value;
+  // (value & digitalRead(ONES_TWO)) ? value += 2 : value;
+  // (value & digitalRead(ONES_FOUR)) ? value += 4 : value;
+  // (value & digitalRead(ONES_EIGHT)) ? value += 8 : value;
+
+  if (digitalRead(ONES_ONE))
+    value++;
+  if (digitalRead(ONES_TWO))
+    value += 2;
+  if (digitalRead(ONES_FOUR))
+    value += 4;
+  if (digitalRead(ONES_EIGHT))
+    value += 8;
+  
+  return value;
 }
