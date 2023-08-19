@@ -51,7 +51,7 @@ int randomNumber = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
   randomSeed(analogRead(A0));
 
   pinMode(PIN_A, OUTPUT);
@@ -69,10 +69,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  Serial.print("randomCounter: ");
+  Serial.println(randomCounter);
 
-  if (randomCounter == 0) {
+  if (randomCounter <= 0) {
     randomNumber = random(1,99);
-    Serial.println(randomNumber);
+    //Serial.println(randomNumber);
     randomCounter = 250;
   } else {
     randomCounter--;
@@ -98,6 +100,8 @@ void displayNumber(int number) {
   //Serial.print(number % 10);
   startTime = millis();
 
+  Serial.println("End of displayNumber");
+
 }
 
 void lightLEDs(int digit, int number) { 
@@ -115,7 +119,6 @@ void lightLEDs(int digit, int number) {
       digitalWrite(PIN_SELECT_ONES, DIGIT_DESELECT);
       break;
     
-    return;
   }
 
   digitalWrite(PIN_A, (currentSegments & SEG_A) ? on : off);
