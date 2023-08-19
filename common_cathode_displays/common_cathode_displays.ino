@@ -45,7 +45,7 @@ int segments[] = { /* 0 */  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
 #define ONES_DIGIT  1
 #define MUX_DELAY   10 //milliseconds
 
-int startTime = 0;
+unsigned long startTime = 0;
 int randomCounter = 0;
 int randomNumber = 0;
 
