@@ -10,13 +10,17 @@
 #define PIN_SELECT_TENS  10
 
 //bcd pins
-#define ONES_COMMON 22
-#define ONES_ONE    24
-#define ONES_TWO    26
-#define ONES_FOUR   28
-#define ONES_EIGHT  30
+#define ONES_ONE    22
+#define ONES_TWO    24
+#define ONES_FOUR   26
+#define ONES_EIGHT  28
 
-#define ACCELEROMETER_PIN 53 //Purple wire
+#define TENS_ONE    23
+#define TENS_TWO    25
+#define TENS_FOUR   27
+#define TENS_EIGHT  29
+
+#define SHAKER_SWITCH_PIN 53 //Purple wire
 
 #define DIGIT_SELECT  LOW
 #define DIGIT_DESELECT  HIGH
@@ -74,13 +78,15 @@ void setup() {
   pinMode(PIN_SELECT_ONES, OUTPUT);
   pinMode(PIN_SELECT_TENS, OUTPUT);
 
-  pinMode(ONES_COMMON, OUTPUT);
-  pinMode(ONES_ONE, INPUT);
-  pinMode(ONES_TWO, INPUT);
-  pinMode(ONES_FOUR, INPUT);
-  pinMode(ONES_EIGHT, INPUT);
+  pinMode(ONES_ONE, INPUT_PULLUP);
+  pinMode(ONES_TWO, INPUT_PULLUP);
+  pinMode(ONES_FOUR, INPUT_PULLUP);
+  pinMode(ONES_EIGHT, INPUT_PULLUP);
 
-  digitalWrite(ONES_COMMON, LOW);
+  pinMode(TENS_ONE, INPUT_PULLUP);
+  pinMode(TENS_TWO, INPUT_PULLUP);
+  pinMode(TENS_FOUR, INPUT_PULLUP);
+  pinMode(TENS_EIGHT, INPUT_PULLUP);
 
   displayOff();
 }
@@ -89,8 +95,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Serial.print("randomCounter: ");
   //Serial.println(randomCounter);
-  //Serial.println(readBCD());
-  Serial.println(analogRead(ACCELEROMETER_PIN));
+  Serial.println(readBCD());
+  //Serial.println(analogRead(SHAKER_SWITCH_PIN));
 
   if (randomCounter <= 0) {
     randomNumber = random(1,99);
@@ -163,29 +169,29 @@ void displayOff() {
 }
 
 int readBCD() {
-  int value = 0;
+  int onesValue = 0;
+  int tensValue = 0;
   
-  // (value & digitalRead(ONES_ONE)) ? value++ : value;
-  // (value & digitalRead(ONES_TWO)) ? value += 2 : value;
-  // (value & digitalRead(ONES_FOUR)) ? value += 4 : value;
-  // (value & digitalRead(ONES_EIGHT)) ? value += 8 : value;
-  Serial.print("ONE: ");
-  Serial.println(digitalRead(ONES_ONE));
-  Serial.print("Two: ");
-  Serial.println(digitalRead(ONES_TWO));
-  Serial.print("FOUR: ");
-  Serial.println(digitalRead(ONES_FOUR));
-  Serial.print("EIGHT: ");
-  Serial.println(digitalRead(ONES_EIGHT));
   delay(1000);
-  if (digitalRead(ONES_ONE))
-    value++;
-  if (digitalRead(ONES_TWO))
-    value += 2;
-  if (digitalRead(ONES_FOUR))
-    value += 4;
-  if (digitalRead(ONES_EIGHT))
-    value += 8;
+  if (! digitalRead(ONES_ONE))
+    onesValue++;
+  if (! digitalRead(ONES_TWO))
+    onesValue += 2;
+  if (! digitalRead(ONES_FOUR))
+    onesValue += 4;
+  if (! digitalRead(ONES_EIGHT))
+    onesValue += 8;
   
-  return value;
+  if (! digitalRead(TENS_ONE))
+    tensValue++;
+  if (! digitalRead(TENS_TWO))
+    tensValue += 2;
+  if (! digitalRead(TENS_FOUR))
+    tensValue += 4;
+  if (! digitalRead(TENS_EIGHT))
+    tensValue += 8;
+  
+  tensValue *= 10;
+
+  return onesValue + tensValue;
 }
