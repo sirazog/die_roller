@@ -16,7 +16,7 @@
 #define ONES_FOUR   28
 #define ONES_EIGHT  30
 
-#define ACCELEROMETER_PIN A15 //Purple wire
+#define ACCELEROMETER_PIN 53 //Purple wire
 
 #define DIGIT_SELECT  LOW
 #define DIGIT_DESELECT  HIGH
