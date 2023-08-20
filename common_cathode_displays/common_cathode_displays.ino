@@ -16,6 +16,8 @@
 #define ONES_FOUR   28
 #define ONES_EIGHT  30
 
+#define ACCELEROMETER_PIN A15 //Purple wire
+
 #define DIGIT_SELECT  LOW
 #define DIGIT_DESELECT  HIGH
 
@@ -87,7 +89,8 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Serial.print("randomCounter: ");
   //Serial.println(randomCounter);
-  Serial.println(readBCD());
+  //Serial.println(readBCD());
+  Serial.println(analogRead(ACCELEROMETER_PIN));
 
   if (randomCounter <= 0) {
     randomNumber = random(1,99);
@@ -166,7 +169,15 @@ int readBCD() {
   // (value & digitalRead(ONES_TWO)) ? value += 2 : value;
   // (value & digitalRead(ONES_FOUR)) ? value += 4 : value;
   // (value & digitalRead(ONES_EIGHT)) ? value += 8 : value;
-
+  Serial.print("ONE: ");
+  Serial.println(digitalRead(ONES_ONE));
+  Serial.print("Two: ");
+  Serial.println(digitalRead(ONES_TWO));
+  Serial.print("FOUR: ");
+  Serial.println(digitalRead(ONES_FOUR));
+  Serial.print("EIGHT: ");
+  Serial.println(digitalRead(ONES_EIGHT));
+  delay(1000);
   if (digitalRead(ONES_ONE))
     value++;
   if (digitalRead(ONES_TWO))
