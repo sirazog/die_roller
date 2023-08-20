@@ -93,11 +93,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  //Serial.print("randomCounter: ");
-  //Serial.println(randomCounter);
-  Serial.println(readBCD());
-  //Serial.println(analogRead(SHAKER_SWITCH_PIN));
-
   if (randomCounter <= 0) {
     randomNumber = random(1,99);
     //Serial.println(randomNumber);
@@ -117,16 +112,12 @@ void displayNumber(int number) {
   while(millis() < startTime + MUX_DELAY) {} //Wait if we haven't displayed the last digit long enough
 
   lightLEDs(TENS_DIGIT, number / 10);
-  //Serial.println("number / 10: ");
-  //Serial.print(number / 10);
+
   delay(MUX_DELAY);
 
   lightLEDs(ONES_DIGIT, number % 10);
-  //Serial.println("number % 10: ");
-  //Serial.print(number % 10);
+  
   startTime = millis();
-
-  //Serial.println("End of displayNumber");
 
 }
 
@@ -172,7 +163,6 @@ int readBCD() {
   int onesValue = 0;
   int tensValue = 0;
   
-  delay(1000);
   if (! digitalRead(ONES_ONE))
     onesValue++;
   if (! digitalRead(ONES_TWO))
