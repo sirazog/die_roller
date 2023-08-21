@@ -59,9 +59,13 @@ int segments[] = { /* 0 */  SEG_A | SEG_B | SEG_C | SEG_D | SEG_E | SEG_F,
 #define ONES_DIGIT  1
 #define MUX_DELAY   10 //milliseconds
 
+#define ROLL_COOLDOWN  5000  //milliseconds
+#define RESULT_DISPLAY_TIME 10000 //milliseconds
+
 unsigned long startTime = 0;
 int randomCounter = 0;
 int randomNumber = 0;
+unsigned long rollStartTime = 0; //Long to avoid inaccuracies if program has been running for substantial amount of time
 
 void setup() {
   // put your setup code here, to run once:
@@ -93,15 +97,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (randomCounter <= 0) {
-    randomNumber = random(1,99);
-    //Serial.println(randomNumber);
-    randomCounter = 250;
+  if (digitalRead(SHAKER_SWITCH_PIN) && millis() > rollStartTime + ROLL_COOLDOWN) { //must wait 5 seconds to roll
+    randomNumber = random(1, readBCD());
+    displayNumber(randomNumber);
+  } else if (millis() > rollStartTime + RESULT_DISPLAY_TIME) { //still in 10 second window of displaying results
+    displayNumber(randomNumber);
   } else {
-    randomCounter--;
+    displayOff();
   }
-  
-  displayNumber(randomNumber);
 }
 
 void displayNumber(int number) {
@@ -183,5 +186,10 @@ int readBCD() {
   
   tensValue *= 10;
 
-  return onesValue + tensValue;
+  int finalValue = onesValue + tensValue;
+
+  if (finalValue <= 0)
+    finalValue = 1;
+
+  return finalValue;
 }
