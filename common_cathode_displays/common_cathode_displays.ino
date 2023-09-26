@@ -6,21 +6,21 @@
 #define PIN_E 6
 #define PIN_F 7
 #define PIN_G 8
-#define PIN_SELECT_ONES  9
-#define PIN_SELECT_TENS  10
+#define PIN_SELECT_ONES  A5
+#define PIN_SELECT_TENS  A6
 
 //bcd pins
-#define ONES_ONE    22
-#define ONES_TWO    24
-#define ONES_FOUR   26
-#define ONES_EIGHT  28
+#define ONES_ONE    A1
+#define ONES_TWO    A2
+#define ONES_FOUR   A3
+#define ONES_EIGHT  A4
 
-#define TENS_ONE    23
-#define TENS_TWO    25
-#define TENS_FOUR   27
-#define TENS_EIGHT  29
+#define TENS_ONE    9
+#define TENS_TWO    10
+#define TENS_FOUR   11
+#define TENS_EIGHT  12
 
-#define SHAKER_SWITCH_PIN 53 //Purple wire
+#define SHAKER_SWITCH_PIN A7 //Purple wire
 
 #define DIGIT_SELECT  LOW
 #define DIGIT_DESELECT  HIGH
